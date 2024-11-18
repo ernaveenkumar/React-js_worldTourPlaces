@@ -1,0 +1,346 @@
+#Notes
+
+$>npm create vite@latest //This will install the latest version
+or
+$>npm create vite@4
+$>npm i
+$>npm run dev
+
+[So building a React app without ESLint
+is a bit like coding half-blinded. So we really don't want that.
+And so we now need to config ESLint here
+in our Vite project. 
+So again, we need to do that manually each time
+that we set up a new project with Vite.
+So that can be a bit annoying and that's the reason why I told you that for learning,it is just good enough to actually use Create React App.]
+#To configure eslint we need to install 3 npm pacakages
+
+$>npm install eslint vite-plugin-eslint eslint-config-react-app --save-dev
+
+#Create a new file at root folder echo .eslintrc.json and paste the below code
+  {
+    "extends":"react-app"
+  }
+
+//open vite.config.js paste the missing lines
+  import { defineConfig } from 'vite';
+  import react from '@vitejs/plugin-react';
+  import eslint from 'vite-plugin-eslint';
+
+  // https://vitejs.dev/config/
+  export default defineConfig({
+    plugins: [react(), eslint()],
+  });
+
+#Install React Router package.
+$>npm i react-router-dom //This will install the latest version
+or
+$>npm i react-router-dom@6
+
+#we will use a traditional way with couple of special components that React Router gives us to define our routes right in the JSX.
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+#import components that we have defined in Route element={< .... />}
+<BrowserRouter>
+        <Routes> 
+          <Route path="/" element={<Homepage />}></Route> 
+          <Route path="*" element={<PageNotFound />}></Route> #If no Route matches then this will match.
+        </Routes>
+</BrowserRouter>
+
+
+
+import { Link } from 'react-router-dom';
+or
+import { NavLink } from 'react-router-dom';
+
+  #If we use <a href=''></a> the page will reload, and this is what we dont wont.Therefore we will now use the Link element that is provided by react router.
+
+once again provided by react router.
+  <Link to="/app"> Go to the app</Link>
+  <Link to="/pricing"> Go to the app</Link>
+
+OR 
+
+  <li>
+    <NavLink to="/">Home</NavLink>
+  </li>
+  <li>
+    <NavLink to="/pricing">Pricing</NavLink>
+  </li>
+  <li>
+    <NavLink to="/product">Product</NavLink>
+  </li>
+
+  //CSS MODULES, One external file per components
+
+components->
+    AppNav.jsx [import styles from './AppNav.module.css';]
+    AppNav.module.css
+
+:global(.test) {
+  background-color: red;
+}
+
+.nav :global(.active) {
+  background-color: green;
+}
+
+
+
+
+# Nested Route . with React Outlet element.
+So for this nested cities route.So let's see what actually happened here.
+
+So React Router saw this URL here
+made out of these two parts.
+And so first it saw the app part
+and so that then matched this route right here.
+But then the Router noticed
+that there's also this cities part, and so then it went into these nested routes.
+And so then of these three here it selected the first one to be rendered.
+And so then it did basically render this part.
+And where did it render this part?
+Well, it placed it right here into the outlet element.
+And so this is actually pretty similar
+to the children prop if we think about this.
+So it's similar to this right here whenever we pass
+some element inside another element in JSX,
+with the difference that here we are not
+using elements but routes.
+
+And so of course the children prop is not going to work
+but instead we use something similar,
+which is the outlet element. So of course if we now change this to form,
+so not from but form,then we get the form element here.
+
+          <Route path="app" element={<AppLayout />}>
+            <Route path="cities" element={<p>List of cities</p>} />
+            <Route path="countires" element={<p>Countries</p>} />
+            <Route path="form" element={<p>Form</p>} />
+          </Route>
+
+#React index element={}
+
+So without specifying any of the nested routes,
+well then our sidebar is empty, which is not what we want.
+So here when we come just to app-
+that didn't work.But anyway, in this application, when we come just to app
+then we want to show by default also this city list here.
+So we can actually do that with something called an index route.
+So let's add that here.
+And so an index route is basically
+the default child route that is going to be matched
+if none of these other routes here matches.
+
+An index route in React Router v6 is a child route that does not have a path. It renders in the parent route’s outlet at the parent route’s path. For example, if you have a route like this:
+
+<Route path="/teams" element={<Teams />}>
+  <Route index element={<TeamsIndex />} />
+</Route>
+
+The TeamsIndex component will render when the user visits the /teams URL. This is because the index route is the default child route for the /teams route.
+
+Index routes can be useful for a variety of purposes. For example, you could use an index route to render a default home page when the user visits a parent route that has no other child routes. Or, you could use an index route to render a list of all the items in a collection.
+
+
+
+In React Router v6, an index route is a child route without a path. It shows content by default when the parent route is visited directly.
+
+For example:
+In the code:
+
+
+<Route path="app" element={<AppLayout />}>
+  <Route index element={<p>List</p>} />
+  <Route path="cities" element={<p>List of cities</p>} />
+  <Route path="countries" element={<p>Countries</p>} />
+  <Route path="form" element={<p>Form</p>} />
+</Route>
+Visiting /app will render the index route: <p>List</p>.
+Visiting /app/cities will render <p>List of cities</p>.
+
+Index routes are great for:
+
+Showing a default page when no specific child route is defined.
+
+An index route acts as the default child route. It is displayed when none of the other child routes match, such as when the user visits the parent route without specifying anything after its path.
+
+For example, if the parent route is /app and there’s nothing after it (like /app/cities), the index route will show. You can use it to display a default view, like a list of cities or any other content.
+
+/*
+https://place-hold.it/
+https://rapidapi.com/collection/list-of-free-apis?gclid=CjwKCAiAvoqsBhB9EiwA9XTWGat1chVw8BzG0S1ES6GVaWi7rz37hIw8rmcKxUkyZdNA11kZqcvVBBoCX-0QAvD_BwE
+https://bored-api.appbrewery.com/
+https://picsum.photos/
+https://documenter.getpostman.com/view/6048123/2s9XxsTv8Y
+https://rapidapi.com/hub
+https://jsonplaceholder.typicode.com/
+https://www.themealdb.com/api.php
+*/
+
+
+#Okay, so next up, let's actually set up our fake API again
+so that we can then fetch our city data from there.Therefore we will install the json-server package.
+
+$>npm install json-server
+
+#To run and start that json-server right from our console.
+#Edit pacakage.json and add 
+#"server": "-------- data is a folder containing file cities.json , with dealy 500 we are intentially making an artificial delay with half a second. We can change --port 8000 to any number like 9000"
+
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+    "server":"json-server --watch data/cities.json --port 8000 -delay 500"
+  },
+
+  $>npm run server
+  #To check json server version installed 
+  $>npm ls json-server
+
+  #on Browser url paste the below code
+  http://localhost:8000/cities
+
+
+
+  #Move the data file in my case cities.json to the root folder of the project.
+  project_folder>cities.json
+  edit pacakage.json file and add server 
+
+  "scripts": {
+      "server": "json-server cities.json"
+  },
+
+Then run from terminal
+$> npm run server
+
+Thats it.
+
+
+Here’s a more detailed and clear explanation of the paragraph:
+
+---
+
+### Step-by-Step Guide:
+
+1. **Move the Data File to the Project's Root Folder**  
+   - Locate the data file (in this case, `cities.json`) and ensure it is placed in the **root directory** of your project.  
+     The root directory is the main folder of your project, where your `package.json` file resides.  
+     Example structure:  
+     ```
+     project_folder/
+     ├── package.json
+     ├── cities.json
+     ├── (other project files)
+     ```
+
+2. **Edit `package.json` to Add a Server Script**  
+   - Open the `package.json` file, which contains your project's metadata and script definitions.  
+   - Add a script to start a JSON server. To do this, find the `"scripts"` section of the file and add the following line:  
+     ```json
+     "scripts": {
+         "server": "json-server cities.json"
+     }
+     ```
+   - This command sets up a script named `server` that, when run, will use the `json-server` tool to serve the data from `cities.json`.  
+   - If `"scripts"` already exists, simply add `"server": "json-server cities.json"` within it (make sure to maintain proper JSON formatting with commas).
+
+3. **Run the Server from the Terminal**  
+   - Open a terminal or command prompt in the project's root folder.  
+   - Run the following command:  
+     ```
+     npm run server
+     ```
+   - This command tells Node.js to execute the `"server"` script you just defined in the `package.json` file.  
+   - Once executed, `json-server` will start and host the `cities.json` file as an API at a default URL (usually `http://localhost:3000`).
+
+4. **Verify the JSON Server**  
+   - Open your web browser or API testing tool (like Postman) and go to `http://localhost:3000` (or the specified port if different).  
+   - You should see the content of `cities.json` available as an API endpoint.
+
+### Explanation of Key Terms:
+- **Root Folder**: The main directory of your project that contains configuration files like `package.json`.  
+- **`json-server`**: A lightweight tool for creating a REST API from a JSON file.  
+- **Scripts in `package.json`**: A convenient way to define custom commands for your project, run via `npm run`.
+
+This process sets up a simple API server using `json-server` to quickly serve data for development or testing purposes.
+
+
+
+
+--------------
+
+
+Here’s a more detailed and clear explanation of the paragraph:
+
+---
+
+### Step-by-Step Guide:
+
+1. Move the Data File to the Project's Root Folder
+   - The root directory is the main folder of your project, where your `package.json` file resides.  
+    
+     project_folder/
+     ├── package.json
+     ├── cities.json
+     ├── (other project files)
+
+2. Edit `package.json` to Add a Server Script
+   - Open the package.json file.
+   - Add a script to start a JSON server. 
+     "scripts": {
+         "server": "json-server cities.json"
+     }
+  
+3. Run the Server from the Terminal
+
+     npm run server
+ 
+   - Once executed, json-server will start and host the cities.json file as an API at a default URL (usually http://localhost:3000).
+
+
+   ----------------------------------
+#Get the params value from URL
+    <Route path="cities/:id" element={<City />} />
+    const { id } = useParams();
+
+#In component-file create a query string
+ <Link
+      className={styles.cityItem}
+      to={`${id}?lat=${position.lat}&lng=${position.lng}`}
+ >
+ ----
+ ----
+ ----
+</Link>
+#acces the params and query string from url: 
+#like http://localhost:5173/app/cities/73930385?lat=38.727881642324164&lng=-9.140900099907554
+
+ const [searchParams, setSearchParams] = useSearchParams();
+
+  const lat = searchParams.get('lat');
+  const lng = searchParams.get('lng');
+   ----------------------------------
+
+# 'setSearchParams' is assigned a value but never used  no-unused-vars
+--In production you may do differently, but you can always add a line before your variable declaration to ignore the warnings:
+// eslint-disable-next-line
+
+
+const navigate = useNavigate();
+navigate(-1); Or navigate(+1);
+
+<Button
+  type="back"
+  onClick={(e) => {
+    e.preventDefault();
+    navigate(-1);
+  }}
+</Button>
+
+<Route index element={<Navigate replace to="cities" />} />
+# Navigate component here also like a redirect.
+# As soon as index route is hited we get redirected to cities. (http://localhost:5173/app/)
+# replace keyword will replace the current element in the history stack
