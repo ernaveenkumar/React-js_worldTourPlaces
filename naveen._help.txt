@@ -4,7 +4,8 @@ $>npm create vite@latest //This will install the latest version
 or
 $>npm create vite@4
 $>npm i
-$>npm run dev
+$>npm run dev    //if dev not  mentioned  npm start
+$npm run server //after installing server
 
 [So building a React app without ESLint
 is a bit like coding half-blinded. So we really don't want that.
@@ -344,3 +345,18 @@ navigate(-1); Or navigate(+1);
 # Navigate component here also like a redirect.
 # As soon as index route is hited we get redirected to cities. (http://localhost:5173/app/)
 # replace keyword will replace the current element in the history stack
+
+
+   ----------------------------------
+
+I know this answer is ridiculous, but consider just disabling this rule until the bugs are worked out or you've upgraded your tooling:
+
+/* eslint-disable react/prop-types */ // TODO: upgrade to latest eslint tooling
+Or disable project-wide in your eslintrc (or .eslintrc.cjs if setup using vite):
+
+"rules": {
+  "react/prop-types": "off"
+}
+
+
+   ----------------------------------
